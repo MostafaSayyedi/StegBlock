@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-picture-input"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js" async></script>
+  <title>Vue exif getter In the browser!</title>
+</head>
+
+<body>
+  <div id="app">
+    <p></p>
+    <picture-input ref="pictureInput" @change="onChange" id="img3"></picture-input>
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Vue exif meta info getter'
+      },
+      components: {
+        'picture-input': PictureInput
+      },
+      methods: {
+        onChange(image) {
+          console.log('onChange!')
+          if (image) {
+            EXIF.getData(this.$refs.pictureInput.file, function () {
+              console.log('image info', this)
+              console.log('exif data', this.exifdata)
+            })
+          } else {
+            console.log(`it's not image`)
+          }
+        }
+      }
+    })
+  </script>
+
+
+
+
+
+  <script>
+    "use strict";
+    window.onload = getExif;
+
+    function getExif() {
+      //  var img1 = document.getElementById("img1");
+      //     EXIF.getData(img1, function() {
+      //      var make = EXIF.getTag(this, "Make");
+      //     var model = EXIF.getTag(this, "Model");
+      //   var makeAndModel = document.getElementById("makeAndModel");
+      //     makeAndModel.innerHTML = `${make} ${model}`;
+      //   });
+
+      var img3 = document.getElementById("img3");
+      // EXIF.enableXmp();
+      EXIF.getData(img3, function () {
+        var allMetaData = EXIF.getAllTags(this);
+        var img3WithXmpMetaData = document.getElementById("img3WithXmpMetaData");
+        img3WithXmpMetaData.innerHTML = JSON.stringify(allMetaData, null, "\t");
+      });
+    }
+  </script>
+
+
+
+</body>
+
+</html>
