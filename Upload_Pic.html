@@ -11,13 +11,20 @@
 <body>
   <div id="app">
     <p></p>
-    <picture-input ref="pictureInput" @change="onChange" id="img3"></picture-input>
+    <picture-input ref="pictureInput" @change="onChange"></picture-input>
+    <p v-for="ex in exifs">
+      {{ex}}
+    </p>
   </div>
   <script>
-    var app = new Vue({
+    const app = new Vue({
       el: '#app',
-      data: {
-        message: 'Vue exif meta info getter'
+      data() {
+        return {
+          message: 'Vue exif meta info getter',
+          DateImage: "DateTimeDigitized",
+          exifs: null
+        }
       },
       components: {
         'picture-input': PictureInput
@@ -26,23 +33,46 @@
         onChange(image) {
           console.log('onChange!')
           if (image) {
+            let vm = this
+            //let make = EXIF.getTag(this, "Make");
             EXIF.getData(this.$refs.pictureInput.file, function () {
-              console.log('image info', this)
-              console.log('exif data', this.exifdata)
+              vm.exifs = this
+              //make.exifs = this
+              //console.log('image info', this)
+              //console.log('exif data', this.exifdata)
+              //return window.console;
+              //Make=this.exifdata;
+              //return Make;
+              //const make = EXIF.getTag(this, 'Make');
+              //return make;
+              // data.DataImage = (this.exifdata && this.exifdata.DataImage);
+              //console.log("date image jadid : " + this.DateImage);
             })
           } else {
             console.log(`it's not image`)
           }
+        },
+        getEI: function () {
+          //console.log("asdlajhasudhalushdaligusdhlaigh" + this.DateImage);
+          //console.log(DateImage);
+          //var old = console.log;
+          //var logger = document.getElementById('log');
+          //console.log = function (message) {
+          // if (typeof message == 'object') {
+          //   logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
+          // } else {
+          //  logger.innerHTML += message + '<br />';
+          // }
+          //}
+          // console.log("the result is :" + (this.data && this.data.DataImage))
+          //return (this.exifdata && this.exifdata.DateTime);
         }
       }
     })
   </script>
 
 
-
-
-
-  <script>
+  <!-- <script>
     "use strict";
     window.onload = getExif;
 
@@ -63,7 +93,7 @@
         img3WithXmpMetaData.innerHTML = JSON.stringify(allMetaData, null, "\t");
       });
     }
-  </script>
+  </script> -->
 
 
 
