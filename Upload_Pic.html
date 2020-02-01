@@ -5,16 +5,19 @@
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/vue-picture-input"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js" async></script>
+  <link rel="stylesheet" type="text/css" href="node_modules/semantic-ui/dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
   <title>Vue exif getter In the browser!</title>
 </head>
 
 <body>
   <div id="app">
-    <p></p>
     <picture-input ref="pictureInput" @change="onChange"></picture-input>
-    <p v-for="ex in exifs">
-      {{ex}}
-    </p>
+    <template>
+      <p v-for="ex in exifs">
+        {{ex}}
+      </p>
+    </template>
   </div>
   <script>
     const app = new Vue({
@@ -31,12 +34,16 @@
       },
       methods: {
         onChange(image) {
-          console.log('onChange!')
+          //console.log('onChange!')
           if (image) {
-            let vm = this
-            //let make = EXIF.getTag(this, "Make");
+            //let vm = this
             EXIF.getData(this.$refs.pictureInput.file, function () {
-              vm.exifs = this
+              //vm.exifs = this
+              //let vm = this
+              var make = EXIF.getTag(this, "Make"),
+                model = EXIF.getTag(this, "Model");
+
+              //alert("I was taken by a " + make + " " + model);
               //make.exifs = this
               //console.log('image info', this)
               //console.log('exif data', this.exifdata)
@@ -52,26 +59,48 @@
             console.log(`it's not image`)
           }
         },
-        getEI: function () {
-          //console.log("asdlajhasudhalushdaligusdhlaigh" + this.DateImage);
-          //console.log(DateImage);
-          //var old = console.log;
-          //var logger = document.getElementById('log');
-          //console.log = function (message) {
-          // if (typeof message == 'object') {
-          //   logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
-          // } else {
-          //  logger.innerHTML += message + '<br />';
-          // }
-          //}
-          // console.log("the result is :" + (this.data && this.data.DataImage))
-          //return (this.exifdata && this.exifdata.DateTime);
-        }
+        // getEI: function () {
+        // EXIF.getData(imageElement, function () {
+        // var make = EXIF.getTag(this, "Make"),
+        //  model = EXIF.getTag(this, "Model");
+        // alert("I was taken by a " + make + " " + model);
+        //});
+        //console.log("asdlajhasudhalushdaligusdhlaigh" + this.DateImage);
+        //console.log(DateImage);
+        //var old = console.log;
+        //var logger = document.getElementById('log');
+        //console.log = function (message) {
+        // if (typeof message == 'object') {
+        //   logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
+        // } else {
+        //  logger.innerHTML += message + '<br />';
+        // }
+        //}
+        // console.log("the result is :" + (this.data && this.data.DataImage))
+        //return (this.exifdata && this.exifdata.DateTime);
       }
-    })
+    });
   </script>
-
-
+  <div class="ui one column grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui huge labels">
+          <div class="ui label">
+            <p v-for="make">Make:</p>
+          </div>
+          <div class="ui label">
+            Model:
+          </div>
+          <div class="ui label">
+            Smart
+          </div>
+          <div class="ui label">
+            Witty
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- <script>
     "use strict";
     window.onload = getExif;
@@ -96,7 +125,9 @@
   </script> -->
 
 
-
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="node_modules/semantic-ui/dist/semantic.min.js"></script>
 </body>
 
 </html>
