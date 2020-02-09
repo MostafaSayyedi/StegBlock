@@ -7,6 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js" async></script>
   <link rel="stylesheet" type="text/css" href="node_modules/semantic-ui/dist/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="css/app.css">
+
   <title>Vue exif getter In the browser!</title>
 </head>
 
@@ -14,9 +15,7 @@
   <div id="app">
     <picture-input ref="pictureInput" @change="onChange"></picture-input>
     <template>
-      <p v-for="ex in exifs">
-        {{ex}}
-      </p>
+
     </template>
   </div>
   <script>
@@ -34,15 +33,35 @@
       },
       methods: {
         onChange(image) {
+
           //console.log('onChange!')
           if (image) {
             //let vm = this
+
             EXIF.getData(this.$refs.pictureInput.file, function () {
               //vm.exifs = this
               //let vm = this
-              var make = EXIF.getTag(this, "Make"),
-                model = EXIF.getTag(this, "Model");
+              var imagedate = EXIF.getTag(this, "DateTime"),
+                make = EXIF.getTag(this, "Make"),
+                model = EXIF.getTag(this, "Model"),
+                iWidth = EXIF.getTag(this, "ImageWidth"),
+                iHeight = EXIF.getTag(this, "ImageHeight");
 
+              //make.innerHTML = JSON.stringify(make,null, "\t");
+              var imagedate2 = document.getElementById("imagedate2");
+              imagedate2.innerHTML = `${imagedate}`;
+              var make2 = document.getElementById("make2");
+              make2.innerHTML = `${make}`;
+              var Model2 = document.getElementById("Model2");
+              Model2.innerHTML = `${model}`;
+
+              var iWidth2 = document.getElementById("iWidth2");
+              iWidth2.innerHTML = `${iWidth}`;
+
+              var iHeight2 = document.getElementById("iHeight2");
+              iHeight2.innerHTML = `${iHeight}`;
+
+              //make.innerHTML = `${make}`;
               //alert("I was taken by a " + make + " " + model);
               //make.exifs = this
               //console.log('image info', this)
@@ -81,25 +100,75 @@
       }
     });
   </script>
+ 
+
   <div class="ui one column grid">
     <div class="row">
       <div class="column">
-        <div class="ui huge labels">
-          <div class="ui label">
-            <p v-for="make">Make:</p>
-          </div>
-          <div class="ui label">
-            Model:
-          </div>
-          <div class="ui label">
-            Smart
-          </div>
-          <div class="ui label">
-            Witty
-          </div>
-        </div>
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Property">Name:</td>
+              <td data-label="Value"><span id=""></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">User ID:</td>
+              <td data-label="Value"><span id=""></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">Photo ID:</td>
+              <td data-label="Value"><span id=""></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">Photo Create Date:</td>
+              <td data-label="Value"><span id="imagedate2"></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">Camera Manufacture:</td>
+              <td data-label="Value"><span id="make2"></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">Camera Model:</td>
+              <td data-label="Value"><span id="Model2"></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">Image Width:</td>
+              <td data-label="Value"><span id="iWidth2"></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">Image Height:</td>
+              <td data-label="Value"><span id="iHeight2"></span></td>
+            </tr>
+            <tr>
+              <td data-label="Property">Image Hash:</td>
+              <td data-label="Value"><span id="imageHash"></span></td>
+            </tr>
+          </tbody>
+          <tfoot class="full-width">
+            <tr>
+              <th></th>
+              <th colspan="4">
+                <div class="ui center floated small primary labeled icon button">
+                  <i class="lock icon"></i> Accept and Steg!
+                </div>
+
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+
       </div>
     </div>
+  </div>
+
+
+  </div>
   </div>
   <!-- <script>
     "use strict";
@@ -128,6 +197,7 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="node_modules/semantic-ui/dist/semantic.min.js"></script>
+  <script src="imagehash.js"></script>
 </body>
 
 </html>
